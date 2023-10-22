@@ -72,6 +72,10 @@
         "functions": 95,
         "lines": 95
       }
-    }
+    },
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ]
   }
 }
