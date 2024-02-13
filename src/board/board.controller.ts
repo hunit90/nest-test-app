@@ -30,13 +30,13 @@ export class BoardController {
     @Param('id') id: number,
     @Body() data
   ) {
-    return 'update'
+    return this.boardService.update(+id, data)
   }
 
   @Delete(':id')
   remove(
     @Param('id') id: number
   ) {
-    return 'delete'
+    return this.boardService.delete(+id)
   }
 }
