@@ -38,4 +38,14 @@ export class BoardService {
     const index = this.boards.findIndex((board)=> board.id === id)
     return this.boards[index]
   }
+
+  create(data) {
+    const newBoard = { id: this.getNextId(), ...data }
+    this.boards.push(newBoard)
+    return newBoard
+  }
+
+  getNextId() {
+    return this.boards.sort((a,b) => (b.id - a.id))[0].id + 1
+  }
 }
