@@ -1,7 +1,21 @@
-import { Body, Controller, Delete, Get, Injectable, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Injectable,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  ValidationPipe,
+} from '@nestjs/common';
 import { BoardService } from './board.service';
+import { ApiTags } from '@nestjs/swagger';
+import { CreateBoardDto } from './dto/create-board.dto';
 
 @Controller('board')
+@ApiTags('Board')
 export class BoardController {
   constructor(
     private readonly boardService: BoardService
@@ -13,30 +27,30 @@ export class BoardController {
 
   @Get(':id')
   find(
-    @Param('id') id: number
+    @Param('id', ParseIntPipe) id: number
   ) {
-    return this.boardService.find(+id)
+    return this.boardService.find(id)
   }
 
   @Post()
   create(
-    @Body() data
+    @Body(new ValidationPipe()) data: CreateBoardDto
   ) {
     return this.boardService.create(data)
   }
 
   @Put(':id')
   update(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() data
   ) {
-    return this.boardService.update(+id, data)
+    return this.boardService.update(id, data)
   }
 
   @Delete(':id')
   remove(
-    @Param('id') id: number
+    @Param('id', ParseIntPipe) id: number
   ) {
-    return this.boardService.delete(+id)
+    return this.boardService.delete(id)
   }
 }
