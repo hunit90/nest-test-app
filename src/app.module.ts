@@ -3,29 +3,30 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BoardModule } from './board/board.module';
 import { LoggingMiddleware } from './middleware/logging.middleware';
-import  ConfigModule  from './config';
+import ConfigModule from './config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as process from 'process';
 
 @Module({
   imports: [
     ConfigModule(),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'board',
-      password: 'test1234',
-      database: 'postgres',
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity.{.ts,.js}'],
       synchronize: false,
     }),
-    BoardModule
+    BoardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule{
+export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
-    consumer.apply(LoggingMiddleware).forRoutes('*')
+    consumer.apply(LoggingMiddleware).forRoutes('*');
   }
 }

@@ -11,4 +11,3 @@ export class UpdateBoardDto {
   @IsOptional()
   content?: string;
 }
-

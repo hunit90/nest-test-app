@@ -8,7 +8,7 @@ export class CreateBoardDto {
   @ApiProperty({
     description: '이름',
     required: true,
-    example: '홍길동'
+    example: '홍길동',
   })
   name: string;
 
@@ -16,7 +16,7 @@ export class CreateBoardDto {
   @ApiProperty({
     description: '내용',
     required: true,
-    example: '안녕하세요'
+    example: '안녕하세요',
   })
   content: string;
 }
