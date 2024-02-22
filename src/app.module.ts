@@ -7,6 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BoardModule } from './board/board.module';
 
 
+ConfigModule()
+console.log(process.env.DB_NAME)
 @Module({
   imports: [
     ConfigModule(),
@@ -18,8 +20,8 @@ import { BoardModule } from './board/board.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: false,
-      logging: true
+      synchronize: true,
+      logging: true,
     }),
     BoardModule,
   ],
