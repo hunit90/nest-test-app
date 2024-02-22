@@ -7,8 +7,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BoardModule } from './board/board.module';
 
 
-ConfigModule()
-console.log(process.env.DB_NAME)
 @Module({
   imports: [
     ConfigModule(),
