@@ -1,13 +1,12 @@
-import { IsOptional, MaxLength, MinLength } from 'class-validator';
-import { ApiProperty, PartialType, PickType } from '@nestjs/swagger';
-import { CreateBoardDto } from './create-board.dto';
+import { ApiProperty } from "@nestjs/swagger";
+import { IsNotEmpty } from "class-validator";
 
 export class UpdateBoardDto {
-  @MinLength(2)
-  @MaxLength(20)
-  @IsOptional()
-  name?: string;
-
-  @IsOptional()
-  content?: string;
+  @ApiProperty({
+    description: '내용',
+    required: true,
+    example: '안녕하세요',
+  })
+  @IsNotEmpty()
+  contents: string;
 }

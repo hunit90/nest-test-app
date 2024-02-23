@@ -30,8 +30,10 @@ export class BoardController {
   }
 
   @Post()
-  create(@Body(new ValidationPipe()) data: CreateBoardDto) {
-    return this.boardService.create(data);
+  create(
+    @Body(new ValidationPipe()) data: CreateBoardDto
+  ) {
+    return this.boardService.create(data)
   }
 
   @Put(':id')

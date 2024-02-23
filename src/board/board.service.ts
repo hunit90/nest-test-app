@@ -17,33 +17,6 @@ export class BoardService {
   ) {
   }
 
-  private boards = [
-    {
-      id: 1,
-      name: 'Inez Dooley',
-      content: 'Content 1',
-    },
-    {
-      id: 2,
-      name: 'Mrs. Bob Brown',
-      content: 'Content 2',
-    },
-    {
-      id: 3,
-      name: 'Sheilea White',
-      content: 'Content 3',
-    },
-    {
-      id: 4,
-      name: 'Mindy Ruecker',
-      content: 'Content 4',
-    },
-    {
-      id: 5,
-      name: 'Nelson Schowalter',
-      content: 'Content 5',
-    },
-  ];
 
   async findAll() {
     return this.boardRepository.find();
@@ -65,37 +38,30 @@ export class BoardService {
   }
 
   async create(data: CreateBoardDto) {
-    return this.boardRepository.save(data)
+    return await this.boardRepository.save(data)
   }
 
-  getNextId() {
-    return this.boards.sort((a, b) => b.id - a.id)[0].id + 1;
+  async update(id: number, data: UpdateBoardDto) {
+    const board = await this.getBoardById(id)
+
+    if (!board) throw new HttpException('NOT_FOUND', HttpStatus.NOT_FOUND)
+
+    return this.boardRepository.update(id, {
+      ...data
+    })
   }
 
-  update(id: number, data: UpdateBoardDto) {
-    const index = this.getBoardId(id);
-    if (index > -1) {
-      this.boards[index] = {
-        ...this.boards[index],
-        ...data,
-      };
-      return this.boards[index];
-    }
-    return null;
+  async delete(id: number) {
+    const board = await this.getBoardById(id)
+
+    if (!board) throw new HttpException('NOT_FOUND', HttpStatus.NOT_FOUND)
+
+    return this.boardRepository.remove(board)
   }
 
-  getBoardId(id: number) {
-    return this.boards.findIndex((board) => board.id === id);
-  }
-
-  delete(id: number) {
-    const index = this.getBoardId(id);
-    if (index > -1) {
-      const deleteBoard = this.boards[index];
-      this.boards.splice(index, 1);
-
-      return deleteBoard;
-    }
-    return null;
+  async getBoardById(id: number) {
+    return this.boardRepository.findOneBy({
+      id,
+    })
   }
 }
