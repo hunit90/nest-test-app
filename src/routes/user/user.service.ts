@@ -6,6 +6,7 @@ import { Board } from '../../entity/board.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { hash, compare } from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
+import * as jwt from 'jsonwebtoken'
 
 @Injectable()
 export class UserService {
@@ -44,6 +45,12 @@ export class UserService {
     return hash(password, DEFAULT_SALT)
   }
 
+  async getUserByUsername(username: string) {
+    return this.userRepository.findOneBy({
+      username,
+    });
+  }
+
   async login(data: LoginUserDto) {
     const { username, password } = data
     const user = await this.userRepository.findOneBy({
@@ -56,6 +63,17 @@ export class UserService {
 
     if (!match)
       throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED)
-    return user
+
+    const payload = {
+      username,
+      name: user.name
+    }
+
+    const accessToken = jwt.sign(payload, 'secret_key', {
+      expiresIn: '1h'
+    })
+    return {
+      accessToken,
+    }
   }
 }

@@ -4,17 +4,22 @@ import {
   HttpException,
   HttpStatus,
   Logger,
+  Post,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Ip } from './decorators/ip.decorator';
-import { HttpExceptionFilter } from './exceptions/http.exceptions';
 import { ConfigService } from '@nestjs/config';
+import { AuthGuard } from '@nestjs/passport';
+import { AuthService } from './auth/auth.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private readonly configService: ConfigService,
+    private readonly authService: AuthService
   ) {}
 
   private readonly logger = new Logger(AppController.name);
@@ -28,5 +33,12 @@ export class AppController {
     this.logger.warn(ip);
     // return this.appService.getHello();
     throw new HttpException('NotFound', HttpStatus.NOT_FOUND);
+  }
+
+  @UseGuards(AuthGuard('local'))
+  @Post('login')
+  async login(@Request() req) {
+    console.log(req.user)
+    return req.user
   }
 }
