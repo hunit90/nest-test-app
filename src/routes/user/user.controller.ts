@@ -23,10 +23,6 @@ export class UserController {
     return this.userService.login(data);
   }
 
-  me() {
-
-  }
-
   @Get()
   getUsers() {
     return this.userService.getUser()
