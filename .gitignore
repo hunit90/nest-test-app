@@ -35,4 +35,4 @@ src/.idea/*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-.env
+.env.*
