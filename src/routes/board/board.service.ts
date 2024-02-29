@@ -10,12 +10,9 @@ import { Board } from '../../entity/board.entity';
 export class BoardService {
 
   constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
     @InjectRepository(Board)
     private boardRepository: Repository<Board>
-  ) {
-  }
+  ) {}
 
 
   async findAll() {
